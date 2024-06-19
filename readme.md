@@ -4,6 +4,8 @@
 
 The SEO Content Generator is a web application designed to help users create high-quality, SEO-optimized articles. This tool leverages OpenAI's language models to generate content based on a given topic and keywords. It also fetches top-ranked articles from the web to ensure contextual relevance and enhance the quality of the generated content.
 
+![Example Image](examples/sample_screenshot.png)
+
 ## Features
 
 - Generate detailed, SEO-optimized articles.
