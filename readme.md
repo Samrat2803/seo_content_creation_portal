@@ -74,6 +74,114 @@ Fill in the respective fields in the Gradio interface and click "Submit". The ap
 
 If an error occurs during content generation, the application will display an error message in the output section. Ensure all inputs are correctly provided and your OpenAI API key is valid.
 
+### Deploying a Python Application to Google Cloud Run with Docker
+
+This guide will walk you through deploying a Python application to Google Cloud Run using Docker. It includes steps for setting up the necessary tools, building and tagging the Docker image, and deploying it to Cloud Run. Special attention is given to users with M series Intel chips, where using the `--platform linux/amd64` flag is critical.
+
+#### Prerequisites
+
+1. **Google Cloud SDK**: Install the [Google Cloud SDK](https://cloud.google.com/sdk/docs/install).
+2. **Docker**: Install [Docker](https://docs.docker.com/get-docker/).
+3. **Google Cloud Project**: Ensure you have a Google Cloud project. You can create one [here](https://console.cloud.google.com/).
+
+#### Setting Up Google Cloud SDK
+
+1. **Initialize the SDK**: Open a terminal and run:
+
+    ```sh
+    gcloud init
+    ```
+
+    Follow the prompts to log in and select your project.
+
+2. **Install Cloud Run Component**:
+
+    ```sh
+    gcloud components install beta
+    ```
+
+3. **Enable APIs**: Enable the necessary APIs for Cloud Run and Container Registry:
+
+    ```sh
+    gcloud services enable run.googleapis.com
+    gcloud services enable containerregistry.googleapis.com
+    ```
+
+#### Dockerfile for Python Application
+
+Create a `Dockerfile` for your Python application:
+
+```dockerfile
+# Use the official Python image from the Docker Hub
+FROM python:3.9-slim
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the requirements file and install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the rest of the application code
+COPY . .
+
+# Command to run the application
+CMD ["python", "app.py"]
+```
+
+#### Building and Tagging the Docker Image
+
+1. **Build the Docker image** with the `--platform linux/amd64` flag (important for M series Intel chips):
+
+    ```sh
+    docker build --platform linux/amd64 -t gcr.io/portfolio-website-425009/seo-content-generator-app .
+    ```
+
+2. **Push the Docker image** to Google Container Registry (GCR):
+
+    ```sh
+    docker push gcr.io/portfolio-website-425009/seo-content-generator-app
+    ```
+
+#### Deploying to Google Cloud Run
+
+1. **Deploy the Docker image** to Google Cloud Run:
+
+    ```sh
+    gcloud run deploy seo-content-generator-app \
+      --image gcr.io/portfolio-website-425009/seo-content-generator-app \
+      --platform managed \
+      --region us-central1 \
+      --allow-unauthenticated \
+      --project portfolio-website-425009
+    ```
+
+### Important Note for M Series Intel Chip Users
+
+If you are using an M series Intel chip (ARM architecture), the `--platform linux/amd64` flag is critical. This flag ensures compatibility with Google Cloud Run, which uses a Linux AMD setup.
+
+### Complete Commands
+
+```sh
+# Step 1: Build the Docker image with linux/amd64 platform
+docker build --platform linux/amd64 -t gcr.io/portfolio-website-425009/seo-content-generator-app .
+
+# Step 2: Push the Docker image to Google Container Registry
+docker push gcr.io/portfolio-website-425009/seo-content-generator-app
+
+# Step 3: Deploy the Docker image to Google Cloud Run
+gcloud run deploy seo-content-generator-app \
+  --image gcr.io/portfolio-website-425009/seo-content-generator-app \
+  --platform managed \
+  --region us-central1 \
+  --allow-unauthenticated \
+  --project portfolio-website-425009
+```
+
+### Conclusion
+
+By following these steps, you can successfully deploy your Python application to Google Cloud Run using Docker. Ensure you have the required tools and configurations in place, especially if using an M series Intel chip, to avoid compatibility issues.
+
 ## Contributing
 
 Contributions are welcome! Please open an issue or submit a pull request with your improvements.

@@ -8,9 +8,9 @@ import re
 import os
 
 try:
-    server_port = int(os.environ.get('SERVER_PORT', ''))
+    server_port = int(os.environ.get('PORT', '8080'))
 except ValueError:
-    server_port = 7860
+    server_port = 8080
 
 root_path = os.environ.get('ROOT_PATH', '')
 

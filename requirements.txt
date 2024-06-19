@@ -2,5 +2,6 @@ gradio
 langchain_openai
 langchain_core
 langchain_community
+duckduckgo-search
 bs4
 requests
