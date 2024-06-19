@@ -6,6 +6,11 @@ The SEO Content Generator is a web application designed to help users create hig
 
 ![Example Image](examples/sample_screenshot.png)
 
+## Public url
+
+[Deployed SEO Content Generator APP](https://seo-content-generator-app-3vi2t2alua-uc.a.run.app)
+The app takes 7 seconds to load
+
 ## Features
 
 - Generate detailed, SEO-optimized articles.
