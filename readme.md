@@ -74,17 +74,17 @@ Fill in the respective fields in the Gradio interface and click "Submit". The ap
 
 If an error occurs during content generation, the application will display an error message in the output section. Ensure all inputs are correctly provided and your OpenAI API key is valid.
 
-### Deploying a Python Application to Google Cloud Run with Docker
+## Deploying a Python Application to Google Cloud Run with Docker
 
 This guide will walk you through deploying a Python application to Google Cloud Run using Docker. It includes steps for setting up the necessary tools, building and tagging the Docker image, and deploying it to Cloud Run. Special attention is given to users with M series Intel chips, where using the `--platform linux/amd64` flag is critical.
 
-#### Prerequisites
+### Cloud prerequisites
 
 1. **Google Cloud SDK**: Install the [Google Cloud SDK](https://cloud.google.com/sdk/docs/install).
 2. **Docker**: Install [Docker](https://docs.docker.com/get-docker/).
 3. **Google Cloud Project**: Ensure you have a Google Cloud project. You can create one [here](https://console.cloud.google.com/).
 
-#### Setting Up Google Cloud SDK
+### Setting Up Google Cloud SDK
 
 1. **Initialize the SDK**: Open a terminal and run:
 
@@ -107,53 +107,35 @@ This guide will walk you through deploying a Python application to Google Cloud 
     gcloud services enable containerregistry.googleapis.com
     ```
 
-#### Dockerfile for Python Application
+### Dockerfile for Python Application
 
-Create a `Dockerfile` for your Python application:
+Use the Dockerfile provided
 
-```dockerfile
-# Use the official Python image from the Docker Hub
-FROM python:3.9-slim
-
-# Set the working directory
-WORKDIR /app
-
-# Copy the requirements file and install dependencies
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy the rest of the application code
-COPY . .
-
-# Command to run the application
-CMD ["python", "app.py"]
-```
-
-#### Building and Tagging the Docker Image
+### Building and Tagging the Docker Image
 
 1. **Build the Docker image** with the `--platform linux/amd64` flag (important for M series Intel chips):
 
     ```sh
-    docker build --platform linux/amd64 -t gcr.io/portfolio-website-425009/seo-content-generator-app .
+    docker build --platform linux/amd64 -t gcr.io/YOUR_PROJECT_ID/YOUR_APP_NAME .
     ```
 
 2. **Push the Docker image** to Google Container Registry (GCR):
 
     ```sh
-    docker push gcr.io/portfolio-website-425009/seo-content-generator-app
+    docker push gcr.io/YOUR_PROJECT_ID/YOUR_APP_NAME
     ```
 
-#### Deploying to Google Cloud Run
+### Deploying to Google Cloud Run
 
 1. **Deploy the Docker image** to Google Cloud Run:
 
     ```sh
-    gcloud run deploy seo-content-generator-app \
-      --image gcr.io/portfolio-website-425009/seo-content-generator-app \
+    gcloud run deploy YOUR_APP_NAME \
+      --image gcr.io/YOUR_PROJECT_ID/YOUR_APP_NAME \
       --platform managed \
       --region us-central1 \
       --allow-unauthenticated \
-      --project portfolio-website-425009
+      --project YOUR_PROJECT_ID
     ```
 
 ### Important Note for M Series Intel Chip Users
@@ -164,18 +146,18 @@ If you are using an M series Intel chip (ARM architecture), the `--platform linu
 
 ```sh
 # Step 1: Build the Docker image with linux/amd64 platform
-docker build --platform linux/amd64 -t gcr.io/portfolio-website-425009/seo-content-generator-app .
+docker build --platform linux/amd64 -t gcr.io/YOUR_PROJECT_ID/YOUR_APP_NAME .
 
 # Step 2: Push the Docker image to Google Container Registry
-docker push gcr.io/portfolio-website-425009/seo-content-generator-app
+docker push gcr.io/YOUR_PROJECT_ID/YOUR_APP_NAME
 
 # Step 3: Deploy the Docker image to Google Cloud Run
-gcloud run deploy seo-content-generator-app \
-  --image gcr.io/portfolio-website-425009/seo-content-generator-app \
+gcloud run deploy YOUR_APP_NAME \
+  --image gcr.io/YOUR_PROJECT_ID/YOUR_APP_NAME \
   --platform managed \
   --region us-central1 \
   --allow-unauthenticated \
-  --project portfolio-website-425009
+  --project YOUR_PROJECT_ID
 ```
 
 ### Conclusion
