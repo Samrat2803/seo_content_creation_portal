@@ -86,8 +86,8 @@ demo = gr.Interface(
     inputs=[
         gr.Dropdown(label="OpenAI Model", choices=["gpt-3.5-turbo", "gpt-4"], value="gpt-3.5-turbo"),
         gr.Textbox(label="OpenAI API Key", type="password"),
-        gr.Textbox(label="Topic", value="5 funny facts about Narendra Modi"),
-        gr.Textbox(label="Keywords", value="political humor, India, Narendra Modi"),
+        gr.Textbox(label="Topic", value="5 funny facts about Rahul Gandhi"),
+        gr.Textbox(label="Keywords", value="Rahul Gandhi funny, Rahul Gandhi facts, Rahul Gandhi humor"),
         gr.Number(label="Length (in words)", value=100),
         gr.Textbox(label="Language", value="English"),
         gr.Textbox(label="Tone", value="exciting"),
