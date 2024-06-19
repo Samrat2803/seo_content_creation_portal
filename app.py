@@ -5,6 +5,14 @@ from langchain_community.tools import DuckDuckGoSearchResults
 import requests
 from bs4 import BeautifulSoup
 import re
+import os
+
+try:
+    server_port = int(os.environ.get('SERVER_PORT', ''))
+except ValueError:
+    server_port = 7860
+
+root_path = os.environ.get('ROOT_PATH', '')
 
 # Define the function to fetch top-ranked articles
 def fetch_top_ranked_articles(keywords):
@@ -101,6 +109,8 @@ demo = gr.Interface(
     description="Generate SEO-optimized articles by providing the topic, keywords, desired length, language, tone, and target audience. This tool fetches top-ranked articles for context and generates a detailed article.",
     article="<p>This application utilizes OpenAI's language models to generate high-quality SEO content. It also fetches top-ranked articles from the web for contextual relevance.</p>"
 )
-
-# Launch the Gradio app
-demo.launch()
+# Launch the Gradio app on the specified port
+if __name__ == "__main__":
+    demo.launch(server_name="0.0.0.0",
+                server_port=server_port,
+                root_path=root_path)
